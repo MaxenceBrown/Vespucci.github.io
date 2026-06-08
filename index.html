@@ -36,5 +36,20 @@ body{background:var(--bg);color:var(--text);front-family:'DM Sans',sans-serif;mi
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem}
 .stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-family:'Syne',sans-serif;margin-bottom:4px}
 .stat-val{font-size:24px;font-weight:500;font-family:'Syne',sans-serif}
+.list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.list-title{font-family:'Syne',sans-serif;font-weight:600;font-size:16px}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;font-family:'Syne',sans-serif}
+.badge-pending{background:rgba(245,200,66,.12);color:var(--gold);border:1px solid rgba(245,200,66,.2)}
+.badge-pass{background:rgba(80,200,120,.15);color:var(--success)}
+.badge-fail{background:rgba(240,96,96,.12);color:var(--danger)}
+.badge-late{background:rgba(240,96,96,.1);color:var(--danger);font-size:10px}
+.sub-row{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .2s}
+.sub-row:hover{border-color:var(--border2)}
+.sub-avatar{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--accent);flex-shrink:0}
+#corrView{display:none}
+.back-btn{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;cursor:pointer;margin-bottom:1.5rem;background:none;border:none;padding:0;font-family:'DM Sans',sans-serif;transition:color .2s}
+.back-btn:hover{color:var(--text)}
+.corr-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:2rem}
+.corr-info{flex:1}
 </style></title>
 </head>
