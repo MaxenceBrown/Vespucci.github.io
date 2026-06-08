@@ -1,55 +1,454 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device=width, initial-scale=1.0">
-<title>Vespucci Database</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel=stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vespucci Police Department — Portail interne</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+STYLEEOF
+
+# Inject the styles
+cat >> /home/claude/index.html << 'STYLE2EOF'
+*{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0d0d12;--surface:#13131a;--surface2:#1a1a24;
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
-  --accent:#7b6ef6;--accent2:#5b4fcf;
-  --text:#f0f0f5;--muted:#8888a0;
-  --danger:#f06060;--success#50c878;--gold:#f5c842;
+  --sky:#e8f4fd;--sky2:#d0e9f8;
+  --ocean:#2980b9;--ocean2:#1a6fa0;--ocean3:#0e4f78;
+  --sand:#f5e6c8;--sand2:#e8d4a0;--sand3:#c4a860;
+  --white:#ffffff;--text:#1a3a52;--muted:#5b7fa0;
+  --light-border:rgba(41,128,185,0.15);--card-border:rgba(41,128,185,0.2);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);front-family:'DM Sans',sans-serif;min-height:100vh}
-.noise{position:fixed;inset:0;pointer-events:none;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3cfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:0}
-#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;position:relative;z-index:1}
-.login-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:min(380px,90vw);text-align:center}
-.login-icon{width:56px;height:56px;background:rgba(123,110,246,.15);border:1px solid rgba(123,110,246,.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:24px}
-.login-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:.4rem}
-.login-sub{font-size:13px;color:var(--muted);margin-bottom:2rem}
-.login-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;margin-bottom:12px}
-.login-input:focus{border-color:var(--accent)}
-.login-btn{width:100%;background:var(--accent);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;padding:12px;border:none;border-radius:10px;cursor:pointer;transition:background .2s}
-.login-btn:hover{background:var(--accent2)}
-.login-err{font-size:12px;color:var(--danger);margin-top:8px;display:none}
-#appShell{display:none;position:realtive;z-index:1}
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;gap:16px;height:56px;position:sticky;top:0;z-index:50}
-.topbar-brand{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
-.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
-.role-badge{font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(123,110,246,.15);border:1px solid rgba(123,110,246,.25);color:var(--accent);font-family:'Syne',sans-serif;font-weight:600;margin-left:4px}
-.main{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:2rem}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem}
-.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-family:'Syne',sans-serif;margin-bottom:4px}
-.stat-val{font-size:24px;font-weight:500;font-family:'Syne',sans-serif}
-.list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.list-title{font-family:'Syne',sans-serif;font-weight:600;font-size:16px}
-.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;font-family:'Syne',sans-serif}
-.badge-pending{background:rgba(245,200,66,.12);color:var(--gold);border:1px solid rgba(245,200,66,.2)}
-.badge-pass{background:rgba(80,200,120,.15);color:var(--success)}
-.badge-fail{background:rgba(240,96,96,.12);color:var(--danger)}
-.badge-late{background:rgba(240,96,96,.1);color:var(--danger);font-size:10px}
-.sub-row{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .2s}
-.sub-row:hover{border-color:var(--border2)}
-.sub-avatar{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--accent);flex-shrink:0}
-#corrView{display:none}
-.back-btn{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;cursor:pointer;margin-bottom:1.5rem;background:none;border:none;padding:0;font-family:'DM Sans',sans-serif;transition:color .2s}
-.back-btn:hover{color:var(--text)}
-.corr-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:2rem}
-.corr-info{flex:1}
-</style></title>
-</head>
+body{font-family:'Barlow',sans-serif;background:var(--sky);color:var(--text);min-height:100vh}
+.app{display:flex;min-height:100vh}
+.sidebar{width:230px;min-height:100vh;flex-shrink:0;background:var(--ocean3);display:flex;flex-direction:column;}
+.logo-zone{padding:24px 20px 20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;gap:10px;}
+.logo-img{width:78px;height:78px;border-radius:50%;border:2px solid var(--sand3);object-fit:cover;display:block;}
+.dept-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--sand);letter-spacing:2px;text-transform:uppercase;text-align:center;line-height:1.3;}
+.dept-sub{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px;}
+.nav{padding:16px 0;flex:1;}
+.nav-section{padding:14px 22px 5px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);font-weight:600;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 22px;cursor:pointer;font-size:13px;font-weight:500;color:rgba(255,255,255,0.55);border-left:3px solid transparent;transition:all 0.18s;user-select:none;letter-spacing:0.3px;}
+.nav-item i{font-size:17px;width:20px;}
+.nav-item:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.9);}
+.nav-item.active{border-left-color:var(--sand);background:rgba(255,255,255,0.1);color:#fff;}
+.nav-item.locked{opacity:0.35;cursor:not-allowed;}
+.nav-item.locked:hover{background:transparent;color:rgba(255,255,255,0.35);}
+.lock-badge{margin-left:auto;background:rgba(255,255,255,0.1);border-radius:4px;padding:2px 5px;font-size:9px;letter-spacing:.5px;color:rgba(255,255,255,0.4);}
+.user-zone{padding:12px 16px;border-top:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:10px;}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--ocean2);border:1px solid var(--sand3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--sand);flex-shrink:0;}
+.user-info{flex:1;min-width:0;}
+.user-name{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.user-grade{font-size:10px;color:rgba(255,255,255,0.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.logout-btn{background:transparent;border:none;cursor:pointer;color:rgba(255,255,255,0.3);font-size:16px;padding:4px;transition:color .15s;}
+.logout-btn:hover{color:rgba(255,255,255,0.8);}
+.main{flex:1;display:flex;flex-direction:column;background:var(--sky);}
+.topbar{background:var(--white);border-bottom:1px solid var(--card-border);padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ocean3);}
+.topbar-title span{color:var(--ocean);}
+.grade-chip{background:var(--ocean3);color:var(--sand);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.content{padding:28px 32px;flex:1;}
+.page{display:none;}.page.active{display:block;}
+.login-screen{min-height:100vh;background:var(--ocean3);display:flex;align-items:center;justify-content:center;padding:20px;}
+.login-card{background:var(--white);border-radius:16px;padding:40px 36px;width:400px;max-width:100%;border:1px solid var(--card-border);}
+.login-logo{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:28px;}
+.login-img{width:90px;height:90px;border-radius:50%;border:3px solid var(--sand3);object-fit:cover;}
+.login-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ocean3);text-align:center;}
+.login-sub{font-size:12px;color:var(--muted);text-align:center;letter-spacing:.5px;}
+.form-group{margin-bottom:16px;}
+.form-label{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.form-input,.form-select{width:100%;background:var(--sky);border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+.form-input:focus,.form-select:focus{border-color:var(--ocean);}
+.login-btn{width:100%;background:var(--ocean3);color:#fff;border:none;padding:12px;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .18s;margin-top:8px;}
+.login-btn:hover{background:var(--ocean2);}
+.login-error{background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:10px 14px;font-size:12px;color:#c0392b;margin-bottom:14px;display:none;}
+.login-error.show{display:block;}
+.login-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.6;}
+.login-hint b{color:var(--ocean);font-weight:600;}
+.access-denied{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;gap:14px;text-align:center;}
+.access-denied i{font-size:48px;color:rgba(41,128,185,0.2);}
+.access-denied h3{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.access-denied p{font-size:13px;color:var(--muted);max-width:280px;line-height:1.6;}
+.hero{background:var(--ocean3);border-radius:14px;padding:26px 30px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative;}
+.hero::after{content:'';position:absolute;right:-20px;bottom:-30px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04);}
+.hero-text h2{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;letter-spacing:1px;color:#fff;text-transform:uppercase;margin-bottom:6px;}
+.hero-text p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;max-width:360px;}
+.wave-bars{display:flex;align-items:center;gap:6px;position:relative;z-index:1;}
+.wb{width:4px;border-radius:3px;background:var(--sand);opacity:0.4;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.stat{background:var(--white);border:1px solid var(--card-border);border-radius:12px;padding:18px 20px;border-top:3px solid var(--ocean);}
+.stat.sand-top{border-top-color:var(--sand3)}.stat.warn-top{border-top-color:#e67e22}.stat.danger-top{border-top-color:#e74c3c}
+.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.stat-value{font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:700;color:var(--ocean3);line-height:1;}
+.stat-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+.card{background:var(--white);border:1px solid var(--card-border);border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.card-header{padding:14px 20px;border-bottom:1px solid var(--light-border);display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ocean3);display:flex;align-items:center;gap:8px;}
+.card-title i{font-size:16px;color:var(--ocean);}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:rgba(41,128,185,0.04);}
+th{padding:10px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--light-border);}
+td{padding:11px 16px;font-size:13px;border-bottom:1px solid rgba(41,128,185,0.06);color:var(--text);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(41,128,185,0.03);}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.4px;white-space:nowrap;}
+.g9{background:rgba(196,168,96,0.15);color:#7a5c10;border:1px solid rgba(196,168,96,0.4);}
+.g8{background:rgba(196,168,96,0.1);color:#8a6a20;border:1px solid rgba(196,168,96,0.3);}
+.g7{background:rgba(41,128,185,0.12);color:var(--ocean2);border:1px solid rgba(41,128,185,0.3);}
+.g6{background:rgba(41,128,185,0.08);color:var(--ocean);border:1px solid rgba(41,128,185,0.2);}
+.g5{background:rgba(22,160,133,0.1);color:#0e8c72;border:1px solid rgba(22,160,133,0.25);}
+.g4{background:rgba(22,160,133,0.07);color:#16a085;border:1px solid rgba(22,160,133,0.18);}
+.g3{background:rgba(91,127,160,0.1);color:#4a6a85;border:1px solid rgba(91,127,160,0.25);}
+.g2{background:rgba(91,127,160,0.07);color:#5b7fa0;border:1px solid rgba(91,127,160,0.18);}
+.g1{background:rgba(91,127,160,0.05);color:#7090a8;border:1px solid rgba(91,127,160,0.12);}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
+.dot.actif{background:#27ae60;}.dot.suspendu{background:#e74c3c;}.dot.inactif{background:#bdc3c7;}
+.status-dot{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+.btn{background:var(--ocean);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:background .18s;display:inline-flex;align-items:center;gap:6px;}
+.btn:hover{background:var(--ocean2);}
+.btn.ghost{background:transparent;color:var(--ocean);border:1px solid var(--card-border);}
+.btn.ghost:hover{background:var(--sky);}
+.btn i{font-size:15px;}
+.pbar-bg{background:rgba(41,128,185,0.1);border-radius:10px;height:5px;width:80px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:6px;}
+.pbar-fill{height:100%;border-radius:10px;background:var(--ocean);}
+.pbar-fill.low{background:#e74c3c;}.pbar-fill.mid{background:#e67e22;}
+.log-item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid rgba(41,128,185,0.06);}
+.log-item:last-child{border-bottom:none;}
+.log-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+.log-icon.warn{background:rgba(230,126,34,0.1);color:#e67e22;border:1px solid rgba(230,126,34,0.25);}
+.log-icon.danger{background:rgba(231,76,60,0.1);color:#e74c3c;border:1px solid rgba(231,76,60,0.25);}
+.log-icon.success{background:rgba(39,174,96,0.1);color:#27ae60;border:1px solid rgba(39,174,96,0.25);}
+.log-icon.info{background:rgba(41,128,185,0.1);color:var(--ocean);border:1px solid rgba(41,128,185,0.2);}
+.log-body{flex:1;}.log-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;}.log-meta{font-size:11px;color:var(--muted);}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.cat-card{background:var(--white);border:1px solid var(--card-border);border-radius:12px;padding:18px;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;gap:9px;position:relative;}
+.cat-card:hover{border-color:var(--ocean);background:var(--sky);}
+.cat-card.expanded{border-color:var(--ocean);background:var(--sky);}
+.cat-card.cat-locked{opacity:.5;cursor:not-allowed;}
+.cat-card.cat-locked:hover{border-color:var(--card-border);background:var(--white);}
+.cat-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.cat-icon.blue{background:rgba(41,128,185,0.12);color:var(--ocean);}
+.cat-icon.sand{background:rgba(196,168,96,0.15);color:var(--sand3);}
+.cat-icon.green{background:rgba(39,174,96,0.12);color:#27ae60;}
+.cat-icon.red{background:rgba(231,76,60,0.1);color:#e74c3c;}
+.cat-icon.purple{background:rgba(142,68,173,0.1);color:#8e44ad;}
+.cat-icon.teal{background:rgba(22,160,133,0.1);color:#16a085;}
+.cat-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.5px;color:var(--ocean3);text-transform:uppercase;}
+.cat-desc{font-size:12px;color:var(--muted);line-height:1.4;}
+.cat-meta{display:flex;align-items:center;justify-content:space-between;}
+.cat-count{font-size:11px;color:var(--ocean);font-weight:600;}
+.cat-min-grade{font-size:10px;color:var(--muted);background:var(--sky);border:1px solid var(--light-border);border-radius:4px;padding:2px 7px;}
+.cat-links{display:none;flex-direction:column;gap:6px;padding-top:10px;border-top:1px solid var(--light-border);}
+.cat-card.expanded .cat-links{display:flex;}
+.cat-link{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;background:var(--white);border:1px solid var(--light-border);text-decoration:none;color:var(--ocean3);font-size:12px;font-weight:500;transition:all .15s;}
+.cat-link:hover{background:var(--ocean);color:#fff;border-color:var(--ocean);}
+.cat-link i{font-size:14px;flex-shrink:0;}
+.add-link-btn{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:7px;background:transparent;border:1px dashed rgba(41,128,185,0.25);color:var(--muted);font-size:11px;cursor:pointer;transition:all .15s;font-family:'Barlow',sans-serif;}
+.add-link-btn:hover{border-color:var(--ocean);color:var(--ocean);}
+.org-tree{display:flex;flex-direction:column;align-items:center;}
+.org-row{display:flex;justify-content:center;gap:10px;}
+.org-node{background:var(--white);border:1px solid var(--card-border);border-radius:10px;padding:10px 16px;text-align:center;min-width:128px;}
+.org-node.top{border-color:var(--sand3);background:rgba(196,168,96,0.05);}
+.org-node.mid{border-color:rgba(41,128,185,0.3);background:rgba(41,128,185,0.03);}
+.org-grade{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;margin-bottom:3px;}
+.org-grade.top-color{color:var(--sand3);}.org-grade.mid-color{color:var(--ocean);}.org-grade.base-color{color:var(--muted);}
+.org-name{font-size:11px;color:var(--muted);}.org-mat{font-size:10px;color:#bdc3c7;margin-top:2px;}
+.org-line{width:1px;height:22px;background:var(--light-border);margin:0 auto;}
+.modal-wrap{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,58,82,0.6);z-index:1000;align-items:center;justify-content:center;padding:20px;}
+.modal-wrap.open{display:flex;}
+.modal{background:var(--white);border-radius:12px;padding:26px;width:430px;max-width:100%;border:1px solid var(--card-border);}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ocean3);margin-bottom:18px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:18px;}
+.day-h{text-align:center;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:4px;font-weight:600;}
+.day-c{background:var(--white);border:1px solid var(--light-border);border-radius:7px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:all .15s;font-weight:500;color:var(--muted);}
+.day-c:hover{border-color:var(--ocean);color:var(--ocean3);}
+.day-c.present{background:rgba(41,128,185,0.1);border-color:rgba(41,128,185,0.35);color:var(--ocean);}
+.day-c.today{border-color:var(--sand3);color:var(--sand3);font-weight:700;}
+</style>
+STYLE2EOF
+
+echo '</head><body>' >> /home/claude/index.html
+echo '<div id="login-screen" class="login-screen">' >> /home/claude/index.html
+echo '<div class="login-card">' >> /home/claude/index.html
+echo '<div class="login-logo">' >> /home/claude/index.html
+
+# Inject the real logo
+echo "<img class=\"login-img\" id=\"login-logo\" src=\"data:image/png;base64,$(base64 -w 0 /mnt/user-data/uploads/1780930862000_image.png)\" alt=\"VPD Logo\">" >> /home/claude/index.html
+
+cat >> /home/claude/index.html << 'BODY2EOF'
+<div class="login-title">Vespucci Police Dept.</div>
+<div class="login-sub">Portail interne — District de Vespucci</div>
+</div>
+<div class="login-error" id="login-error">Identifiants incorrects ou accès refusé.</div>
+<div class="form-group"><label class="form-label">Matricule</label><input class="form-input" id="login-mat" placeholder="VPD-001" onkeydown="if(event.key==='Enter')doLogin()"></div>
+<div class="form-group"><label class="form-label">Mot de passe</label><input class="form-input" type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+<button class="login-btn" onclick="doLogin()">Connexion</button>
+<div class="login-hint">Comptes de démo :<br><b>VPD-001</b> / <b>capitaine</b> · Capitaine (accès total)<br><b>VPD-005</b> / <b>sergent</b> · Sergent (accès partiel)<br><b>VPD-009</b> / <b>officier</b> · Officier 1 (accès limité)</div>
+</div></div>
+
+<div id="app-screen" class="app" style="display:none">
+  <aside class="sidebar">
+    <div class="logo-zone">
+BODY2EOF
+
+echo "<img class=\"logo-img\" id=\"app-logo\" src=\"data:image/png;base64,$(base64 -w 0 /mnt/user-data/uploads/1780930862000_image.png)\" alt=\"VPD\">" >> /home/claude/index.html
+
+cat >> /home/claude/index.html << 'BODY3EOF'
+      <div><div class="dept-name">Vespucci<br>Police Dept.</div><div class="dept-sub">S.A.M.P. · District</div></div>
+    </div>
+    <nav class="nav" id="sidebar-nav"></nav>
+    <div class="user-zone">
+      <div class="user-avatar" id="user-avatar">?</div>
+      <div class="user-info"><div class="user-name" id="user-name-display">—</div><div class="user-grade" id="user-grade-display">—</div></div>
+      <button class="logout-btn" onclick="doLogout()" title="Déconnexion"><i class="ti ti-logout"></i></button>
+    </div>
+  </aside>
+  <div style="flex:1;display:flex;flex-direction:column;background:var(--sky)">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title"><span>Tableau</span> de bord</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="grade-chip" id="topbar-grade"><i class="ti ti-shield" style="font-size:11px"></i> Officier 1</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="page active" id="page-dashboard">
+        <div class="hero">
+          <div class="hero-text"><h2 id="hero-welcome">Bienvenue, officier</h2><p>District de Vespucci — Patrouille de la plage et des environs.</p></div>
+          <div class="wave-bars"><div class="wb" style="height:16px"></div><div class="wb" style="height:26px"></div><div class="wb" style="height:20px"></div><div class="wb" style="height:32px"></div><div class="wb" style="height:24px"></div><div class="wb" style="height:38px"></div><div class="wb" style="height:28px"></div><div class="wb" style="height:18px"></div></div>
+        </div>
+        <div class="stats-row">
+          <div class="stat"><div class="stat-label">Agents actifs</div><div class="stat-value" id="s-actifs">—</div><div class="stat-sub">Sur 10 inscrits</div></div>
+          <div class="stat sand-top"><div class="stat-label">Grade max</div><div class="stat-value" style="font-size:18px;padding-top:8px">Capitaine</div><div class="stat-sub">1 agent</div></div>
+          <div class="stat warn-top"><div class="stat-label">Présence moy.</div><div class="stat-value" id="s-pres">—</div><div class="stat-sub">Ce mois</div></div>
+          <div class="stat danger-top"><div class="stat-label">Sanctions</div><div class="stat-value" id="s-sanc">—</div><div class="stat-sub">Actives</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div class="card"><div class="card-header"><div class="card-title"><i class="ti ti-users"></i>Agents récents</div></div><table><thead><tr><th>Agent</th><th>Grade</th><th>Statut</th></tr></thead><tbody id="dash-agents"></tbody></table></div>
+          <div class="card"><div class="card-header"><div class="card-title"><i class="ti ti-activity"></i>Derniers logs</div></div><div style="padding:6px 16px" id="dash-logs"></div></div>
+        </div>
+      </div>
+      <div class="page" id="page-categories">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--ocean3);letter-spacing:1px;text-transform:uppercase">Documents internes</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Cliquez sur une catégorie pour voir les liens</div></div>
+          <button class="btn" id="btn-add-cat" onclick="openModal('add-cat')" style="display:none"><i class="ti ti-plus"></i> Nouvelle catégorie</button>
+        </div>
+        <div class="cat-grid" id="cat-grid"></div>
+      </div>
+      <div class="page" id="page-agents"><div id="agents-content"></div></div>
+      <div class="page" id="page-presence">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--ocean3);letter-spacing:1px;text-transform:uppercase">Feuilles de présence</div>
+          <div style="display:flex;gap:8px;align-items:center"><select class="form-select" style="width:160px" id="pres-agent-sel"></select><button class="btn ghost" onclick="markPresent()"><i class="ti ti-check"></i> Présent</button></div>
+        </div>
+        <div class="card" style="padding:20px;margin-bottom:20px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--ocean3);letter-spacing:1px" id="cal-month-label">JUIN 2025</div>
+            <div style="display:flex;gap:6px"><button class="btn ghost" style="padding:6px 10px" onclick="changeMonth(-1)"><i class="ti ti-chevron-left"></i></button><button class="btn ghost" style="padding:6px 10px" onclick="changeMonth(1)"><i class="ti ti-chevron-right"></i></button></div>
+          </div>
+          <div class="cal-grid" id="cal-header"></div><div class="cal-grid" id="cal-body"></div>
+        </div>
+        <div class="card"><div class="card-header"><div class="card-title"><i class="ti ti-chart-bar"></i>Récapitulatif</div></div><table><thead><tr><th>Agent</th><th>Grade</th><th>Présents</th><th>Taux</th></tr></thead><tbody id="pres-summary"></tbody></table></div>
+      </div>
+      <div class="page" id="page-organigramme">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--ocean3);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px">Organigramme du district</div>
+        <div class="card" style="padding:28px"><div class="org-tree" id="org-tree"></div></div>
+      </div>
+      <div class="page" id="page-sanctions"><div id="sanctions-content"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-wrap" id="modal-add-agent"><div class="modal">
+  <div class="modal-title">Nouvel agent</div>
+  <div class="form-row"><div class="form-group"><label class="form-label">Matricule</label><input class="form-input" id="in-mat" placeholder="VPD-011"></div><div class="form-group"><label class="form-label">Nom RP</label><input class="form-input" id="in-nom" placeholder="John Smith"></div></div>
+  <div class="form-group"><label class="form-label">Grade</label><select class="form-select" id="in-grade"></select></div>
+  <div class="form-group"><label class="form-label">Mot de passe</label><input class="form-input" id="in-pass" placeholder="motdepasse123"></div>
+  <div class="form-group"><label class="form-label">Statut</label><select class="form-select" id="in-statut"><option value="actif">Actif</option><option value="inactif">Inactif</option><option value="suspendu">Suspendu</option></select></div>
+  <div class="modal-actions"><button class="btn ghost" onclick="closeModal('add-agent')">Annuler</button><button class="btn" onclick="addAgent()">Enregistrer</button></div>
+</div></div>
+
+<div class="modal-wrap" id="modal-add-sanction"><div class="modal">
+  <div class="modal-title">Nouvelle entrée log</div>
+  <div class="form-group"><label class="form-label">Agent</label><select class="form-select" id="in-sanc-agent"></select></div>
+  <div class="form-group"><label class="form-label">Type</label><select class="form-select" id="in-sanc-type"><option value="avertissement">Avertissement</option><option value="suspension">Suspension</option><option value="promotion">Promotion</option><option value="note">Note de service</option><option value="felicitation">Félicitation</option></select></div>
+  <div class="form-group"><label class="form-label">Motif</label><input class="form-input" id="in-sanc-motif" placeholder="Décrivez la raison..."></div>
+  <div class="modal-actions"><button class="btn ghost" onclick="closeModal('add-sanction')">Annuler</button><button class="btn" onclick="addSanction()">Enregistrer</button></div>
+</div></div>
+
+<div class="modal-wrap" id="modal-add-cat"><div class="modal">
+  <div class="modal-title">Nouvelle catégorie</div>
+  <div class="form-group"><label class="form-label">Nom</label><input class="form-input" id="in-cat-name" placeholder="Ex : Procédures internes"></div>
+  <div class="form-group"><label class="form-label">Description</label><input class="form-input" id="in-cat-desc" placeholder="Courte description..."></div>
+  <div class="form-row">
+    <div class="form-group"><label class="form-label">Icône</label><select class="form-select" id="in-cat-icon"><option value="ti-file-text">Document</option><option value="ti-shield">Police</option><option value="ti-users">RH</option><option value="ti-gavel">Règlement</option><option value="ti-map">Carte</option><option value="ti-star">Distinctions</option></select></div>
+    <div class="form-group"><label class="form-label">Grade min.</label><select class="form-select" id="in-cat-grade"></select></div>
+  </div>
+  <div class="modal-actions"><button class="btn ghost" onclick="closeModal('add-cat')">Annuler</button><button class="btn" onclick="addCat()">Créer</button></div>
+</div></div>
+
+<div class="modal-wrap" id="modal-add-link"><div class="modal">
+  <div class="modal-title">Ajouter un lien</div>
+  <div class="form-group"><label class="form-label">Nom du document</label><input class="form-input" id="in-link-name" placeholder="Ex : Règlement disciplinaire"></div>
+  <div class="form-group"><label class="form-label">URL</label><input class="form-input" id="in-link-url" placeholder="https://docs.google.com/..."></div>
+  <div class="modal-actions"><button class="btn ghost" onclick="closeModal('add-link')">Annuler</button><button class="btn" onclick="addLink()">Ajouter</button></div>
+</div></div>
+
+<script>
+const GRADES=[
+  {id:9,label:'Capitaine',cls:'g9'},{id:8,label:'Lieutenant Chef',cls:'g8'},
+  {id:7,label:'Lieutenant',cls:'g7'},{id:6,label:'Sergent 2',cls:'g6'},
+  {id:5,label:'Sergent',cls:'g5'},{id:4,label:'Senior Lead Officer',cls:'g4'},
+  {id:3,label:'Officier 3',cls:'g3'},{id:2,label:'Officier 2',cls:'g2'},
+  {id:1,label:'Officier 1',cls:'g1'},
+];
+const PERMS={dashboard:{minGrade:1},categories:{minGrade:1},presence:{minGrade:1},organigramme:{minGrade:1},agents:{minGrade:5},sanctions:{minGrade:6}};
+let users=[
+  {id:1,matricule:'VPD-001',nom:'Marcus Rivera',grade:9,statut:'actif',pass:'capitaine',presence:[1,1,1,1,0,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1]},
+  {id:2,matricule:'VPD-002',nom:'Sofia Castillo',grade:8,statut:'actif',pass:'vpd002',presence:[1,1,0,1,1,1,1,0,1,1,1,0,1,1,1,1,0,1,1,0]},
+  {id:3,matricule:'VPD-003',nom:'Jayden Cross',grade:7,statut:'actif',pass:'vpd003',presence:[1,0,1,1,1,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1]},
+  {id:4,matricule:'VPD-004',nom:'Amara Diallo',grade:6,statut:'actif',pass:'vpd004',presence:[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},
+  {id:5,matricule:'VPD-005',nom:'Tyler Nguyen',grade:5,statut:'actif',pass:'sergent',presence:[1,1,1,0,0,1,1,0,0,1,1,1,0,0,1,1,0,0,1,1]},
+  {id:6,matricule:'VPD-006',nom:'Priya Sharma',grade:4,statut:'actif',pass:'vpd006',presence:[1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,0]},
+  {id:7,matricule:'VPD-007',nom:'Kevin Walsh',grade:3,statut:'suspendu',pass:'vpd007',presence:[1,0,0,1,0,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0]},
+  {id:8,matricule:'VPD-008',nom:'Nadia Fontaine',grade:2,statut:'actif',pass:'vpd008',presence:[1,1,0,1,1,1,1,1,0,1,1,1,0,1,1,1,1,0,1,1]},
+  {id:9,matricule:'VPD-009',nom:'Carlos Vega',grade:1,statut:'actif',pass:'officier',presence:[0,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,1,0,1,1]},
+  {id:10,matricule:'VPD-010',nom:'Emma Brolin',grade:1,statut:'inactif',pass:'vpd010',presence:[1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0]},
+];
+let sanctions=[
+  {id:1,agentId:7,type:'suspension',motif:'Comportement inapproprié envers un civil',date:'2025-05-28',by:'VPD-001'},
+  {id:2,agentId:5,type:'avertissement',motif:'Taux de présence insuffisant',date:'2025-05-20',by:'VPD-002'},
+  {id:3,agentId:4,type:'felicitation',motif:'Excellent travail opération plage',date:'2025-05-15',by:'VPD-001'},
+  {id:4,agentId:10,type:'note',motif:'Inactivité prolongée — mise en demeure',date:'2025-05-10',by:'VPD-001'},
+];
+let categories=[
+  {id:1,name:'Procédures',desc:'Protocoles opérationnels',icon:'ti-shield',color:'blue',minGrade:1,links:[{name:"Manuel d'arrestation",url:'#'},{name:'Protocole intervention plage',url:'#'}]},
+  {id:2,name:'RH & Personnel',desc:'Documents ressources humaines',icon:'ti-users',color:'teal',minGrade:5,links:[{name:'Formulaire de recrutement',url:'#'},{name:'Règlement intérieur',url:'#'}]},
+  {id:3,name:'Règlement',desc:'Code disciplinaire',icon:'ti-gavel',color:'red',minGrade:6,links:[{name:'Code de conduite VPD',url:'#'}]},
+  {id:4,name:'Zones & Patrouilles',desc:'Secteurs et plans de patrouille',icon:'ti-map',color:'sand',minGrade:1,links:[{name:'Carte des zones Vespucci',url:'#'},{name:'Planning des patrouilles',url:'#'}]},
+  {id:5,name:'Distinctions',desc:'Médailles et félicitations',icon:'ti-star',color:'sand',minGrade:1,links:[]},
+  {id:6,name:'Formation',desc:'Supports de formation recrues',icon:'ti-file-text',color:'purple',minGrade:1,links:[{name:'Guide recrue Officier 1',url:'#'}]},
+];
+let currentUser=null,presYear=2025,presMonth=5,nextSancId=5,nextCatId=7,nextUserId=11,activeCatForLink=null;
+function gradeById(id){return GRADES.find(g=>g.id===id)||GRADES[8];}
+function presRate(a){const t=a.presence.length;return t>0?Math.round(a.presence.reduce((x,y)=>x+y,0)/t*100):0;}
+function canAccess(p){if(!currentUser)return false;const pm=PERMS[p];return pm?currentUser.grade>=pm.minGrade:false;}
+function doLogin(){
+  const mat=document.getElementById('login-mat').value.trim();
+  const pass=document.getElementById('login-pass').value.trim();
+  const err=document.getElementById('login-error');
+  const user=users.find(u=>u.matricule===mat&&u.pass===pass);
+  if(!user||user.statut==='suspendu'){err.textContent=user&&user.statut==='suspendu'?'Compte suspendu. Contactez votre supérieur.':'Identifiants incorrects.';err.classList.add('show');return;}
+  err.classList.remove('show');currentUser=user;
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app-screen').style.display='flex';
+  const g=gradeById(user.grade);
+  document.getElementById('user-name-display').textContent=user.nom;
+  document.getElementById('user-grade-display').textContent=g.label+' · '+user.matricule;
+  document.getElementById('topbar-grade').innerHTML='<i class="ti ti-shield" style="font-size:11px"></i> '+g.label;
+  document.getElementById('user-avatar').textContent=user.nom.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('hero-welcome').textContent='Bienvenue, '+user.nom.split(' ')[0];
+  buildNav();goPage('dashboard');
+}
+function doLogout(){currentUser=null;document.getElementById('app-screen').style.display='none';document.getElementById('login-screen').style.display='flex';document.getElementById('login-mat').value='';document.getElementById('login-pass').value='';}
+function buildNav(){
+  const nav=[{section:'Général'},{page:'dashboard',icon:'ti-layout-dashboard',label:'Tableau de bord'},{page:'categories',icon:'ti-folder',label:'Documents'},{section:'Ressources humaines'},{page:'agents',icon:'ti-users',label:'Agents'},{page:'presence',icon:'ti-calendar-check',label:'Présences'},{page:'organigramme',icon:'ti-sitemap',label:'Organigramme'},{section:'Discipline'},{page:'sanctions',icon:'ti-gavel',label:'Sanctions / Logs'}];
+  document.getElementById('sidebar-nav').innerHTML=nav.map(n=>{
+    if(n.section)return'<div class="nav-section">'+n.section+'</div>';
+    const ok=canAccess(n.page);
+    const lock=!ok?'<span class="lock-badge"><i class="ti ti-lock" style="font-size:9px"></i> '+gradeById(PERMS[n.page].minGrade).label+'</span>':'';
+    return'<div class="nav-item'+(ok?'':' locked')+'" id="nav-'+n.page+'" onclick="'+(ok?'goPage(\''+n.page+'\')':'showLocked()')+'"><i class="ti '+n.icon+'"></i> '+n.label+lock+'</div>';
+  }).join('');
+}
+function showLocked(){alert('Accès refusé. Grade insuffisant.');}
+function goPage(p){
+  if(!canAccess(p)){showLocked();return;}
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  const nav=document.getElementById('nav-'+p);if(nav)nav.classList.add('active');
+  const titles={dashboard:'<span>Tableau</span> de bord',categories:'<span>Documents</span> internes',agents:'<span>Gestion</span> des agents',presence:'<span>Feuilles</span> de présence',organigramme:'<span>Organigramme</span> du district',sanctions:'<span>Sanctions</span> & Logs'};
+  document.getElementById('topbar-title').innerHTML=titles[p]||p;
+  if(p==='dashboard')renderDash();if(p==='categories')renderCats();if(p==='agents')renderAgentsPage();if(p==='presence')renderPresence();if(p==='organigramme')renderOrg();if(p==='sanctions')renderSanctionsPage();
+}
+function renderDash(){
+  document.getElementById('s-actifs').textContent=users.filter(a=>a.statut==='actif').length;
+  document.getElementById('s-sanc').textContent=sanctions.filter(s=>s.type==='suspension'||s.type==='avertissement').length;
+  document.getElementById('s-pres').textContent=Math.round(users.reduce((s,a)=>s+presRate(a),0)/users.length)+'%';
+  document.getElementById('dash-agents').innerHTML=users.slice(0,5).map(a=>{const g=gradeById(a.grade);return'<tr><td style="font-weight:500">'+a.nom+'</td><td><span class="badge '+g.cls+'">'+g.label+'</span></td><td><span class="status-dot"><span class="dot '+a.statut+'"></span>'+a.statut+'</span></td></tr>';}).join('');
+  const im={suspension:'ti-lock',avertissement:'ti-alert-triangle',felicitation:'ti-star',promotion:'ti-award',note:'ti-file-text'};
+  const cm={suspension:'danger',avertissement:'warn',felicitation:'success',promotion:'info',note:'info'};
+  document.getElementById('dash-logs').innerHTML=[...sanctions].reverse().slice(0,4).map(s=>{const a=users.find(u=>u.id===s.agentId);return'<div class="log-item"><div class="log-icon '+(cm[s.type]||'info')+'"><i class="ti '+(im[s.type]||'ti-file')+'"></i></div><div class="log-body"><div class="log-title">'+(a?a.nom:'—')+' — '+s.type.charAt(0).toUpperCase()+s.type.slice(1)+'</div><div class="log-meta">'+s.motif+' · '+s.date+'</div></div></div>';}).join('');
+}
+function renderCats(){
+  const isAdmin=currentUser&&currentUser.grade>=7;
+  const btn=document.getElementById('btn-add-cat');if(btn)btn.style.display=isAdmin?'inline-flex':'none';
+  const sel=document.getElementById('in-cat-grade');if(sel)sel.innerHTML=GRADES.map(g=>'<option value="'+g.id+'">'+g.label+'</option>').join('');
+  document.getElementById('cat-grid').innerHTML=categories.map(c=>{
+    const hasAccess=currentUser&&currentUser.grade>=c.minGrade;
+    const minGLabel=gradeById(c.minGrade).label;
+    const lockedClass=hasAccess?'':'cat-locked';
+    const lockIcon=hasAccess?'':'<i class="ti ti-lock" style="font-size:12px;color:var(--muted);position:absolute;top:12px;right:12px"></i>';
+    return'<div class="cat-card '+lockedClass+'" id="cat-'+c.id+'" onclick="'+(hasAccess?'toggleCat('+c.id+')':'void(0)')+'">'+lockIcon+'<div style="display:flex;align-items:center;gap:10px"><div class="cat-icon '+(c.color||'blue')+'"><i class="ti '+c.icon+'"></i></div><div><div class="cat-name">'+c.name+'</div></div></div><div class="cat-desc">'+c.desc+'</div><div class="cat-meta"><div class="cat-count">'+c.links.length+' document'+(c.links.length!==1?'s':'')+'</div><div class="cat-min-grade"><i class="ti ti-shield" style="font-size:9px"></i> '+minGLabel+'+</div></div>'+(hasAccess?'<div class="cat-links" id="links-'+c.id+'">'+c.links.map(l=>'<a class="cat-link" href="'+l.url+'" target="_blank"><i class="ti ti-external-link"></i>'+l.name+'</a>').join('')+(isAdmin?'<button class="add-link-btn" onclick="event.stopPropagation();openAddLink('+c.id+')"><i class="ti ti-plus" style="font-size:12px"></i> Ajouter un lien</button>':'')+'</div>':'')+'</div>';
+  }).join('');
+}
+function toggleCat(id){const c=document.getElementById('cat-'+id);if(c)c.classList.toggle('expanded');}
+function openAddLink(id){activeCatForLink=id;openModal('add-link');}
+function addLink(){const name=document.getElementById('in-link-name').value.trim();const url=document.getElementById('in-link-url').value.trim();if(!name||!url||!activeCatForLink)return;const cat=categories.find(c=>c.id===activeCatForLink);if(cat)cat.links.push({name,url});closeModal('add-link');document.getElementById('in-link-name').value='';document.getElementById('in-link-url').value='';renderCats();const card=document.getElementById('cat-'+activeCatForLink);if(card)card.classList.add('expanded');}
+function addCat(){const name=document.getElementById('in-cat-name').value.trim();const desc=document.getElementById('in-cat-desc').value.trim();const icon=document.getElementById('in-cat-icon').value;const mg=parseInt(document.getElementById('in-cat-grade').value);if(!name)return;categories.push({id:nextCatId++,name,desc,icon,color:'blue',minGrade:mg,links:[]});closeModal('add-cat');document.getElementById('in-cat-name').value='';document.getElementById('in-cat-desc').value='';renderCats();}
+function renderAgentsPage(){
+  const canEdit=currentUser&&currentUser.grade>=PERMS.agents.minGrade;
+  if(!canEdit){document.getElementById('agents-content').innerHTML='<div class="access-denied"><i class="ti ti-lock"></i><h3>Accès restreint</h3><p>La gestion des agents est réservée aux '+gradeById(PERMS.agents.minGrade).label+' et supérieurs.</p></div>';return;}
+  document.getElementById('in-grade').innerHTML=GRADES.map(g=>'<option value="'+g.id+'">'+g.label+'</option>').join('');
+  document.getElementById('agents-content').innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:22px;font-weight:700;color:var(--ocean3);letter-spacing:1px;text-transform:uppercase">Gestion des agents</div><button class="btn" onclick="openModal(\'add-agent\')"><i class="ti ti-plus"></i> Ajouter un agent</button></div><div style="display:flex;gap:10px;margin-bottom:18px"><input class="form-input" style="flex:1" placeholder="Rechercher..." id="search-agent" oninput="filterAgents()"><select class="form-select" style="width:180px" id="filter-grade" onchange="filterAgents()"><option value="">Tous les grades</option>'+GRADES.map(g=>'<option value="'+g.id+'">'+g.label+'</option>').join('')+'</select></div><div class="card"><table><thead><tr><th>Matricule</th><th>Nom RP</th><th>Grade</th><th>Présence</th><th>Statut</th><th></th></tr></thead><tbody id="agents-tbody"></tbody></table></div>';
+  filterAgents();
+}
+function filterAgents(){
+  const q=(document.getElementById('search-agent')||{}).value||'';
+  const gf=(document.getElementById('filter-grade')||{}).value||'';
+  const filtered=users.filter(a=>(a.nom.toLowerCase().includes(q.toLowerCase())||a.matricule.toLowerCase().includes(q.toLowerCase()))&&(!gf||a.grade==gf));
+  const tbody=document.getElementById('agents-tbody');if(!tbody)return;
+  tbody.innerHTML=filtered.map(a=>{const g=gradeById(a.grade);const r=presRate(a);const bc=r<40?'low':r<65?'mid':'';return'<tr><td style="font-family:\'Barlow Condensed\',sans-serif;color:var(--muted);letter-spacing:.5px">'+a.matricule+'</td><td style="font-weight:500">'+a.nom+'</td><td><span class="badge '+g.cls+'">'+g.label+'</span></td><td><span style="font-size:12px">'+r+'%</span><span class="pbar-bg"><span class="pbar-fill '+bc+'" style="width:'+r+'%"></span></span></td><td><span class="status-dot"><span class="dot '+a.statut+'"></span>'+a.statut+'</span></td><td><button class="btn ghost" style="padding:4px 8px;font-size:11px" onclick="delAgent('+a.id+')"><i class="ti ti-trash"></i></button></td></tr>';}).join('');
+}
+function delAgent(id){if(currentUser&&currentUser.id===id){alert('Vous ne pouvez pas supprimer votre propre compte.');return;}users=users.filter(a=>a.id!==id);filterAgents();renderDash();}
+function addAgent(){const mat=document.getElementById('in-mat').value.trim();const nom=document.getElementById('in-nom').value.trim();const grade=parseInt(document.getElementById('in-grade').value);const pass=document.getElementById('in-pass').value.trim()||'vpd'+mat.slice(-3);const statut=document.getElementById('in-statut').value;if(!mat||!nom)return;users.push({id:nextUserId++,matricule:mat,nom,grade,statut,pass,presence:[]});closeModal('add-agent');document.getElementById('in-mat').value='';document.getElementById('in-nom').value='';document.getElementById('in-pass').value='';filterAgents();renderDash();}
+function renderPresence(){
+  const months=['JANVIER','FÉVRIER','MARS','AVRIL','MAI','JUIN','JUILLET','AOÛT','SEPTEMBRE','OCTOBRE','NOVEMBRE','DÉCEMBRE'];
+  document.getElementById('cal-month-label').textContent=months[presMonth]+' '+presYear;
+  document.getElementById('cal-header').innerHTML=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].map(d=>'<div class="day-h">'+d+'</div>').join('');
+  const dim=new Date(presYear,presMonth+1,0).getDate();const today=new Date();let cells='';
+  const fd=new Date(presYear,presMonth,1).getDay();const off=fd===0?6:fd-1;
+  for(let i=0;i<off;i++)cells+='<div></div>';
+  for(let d=1;d<=dim;d++){const isT=today.getDate()===d&&today.getMonth()===presMonth&&today.getFullYear()===presYear;cells+='<div class="day-c'+(isT?' today':'')+'">'+d+'</div>';}
+  document.getElementById('cal-body').innerHTML=cells;
+  document.getElementById('pres-agent-sel').innerHTML=users.map(a=>'<option value="'+a.id+'">'+a.nom+'</option>').join('');
+  document.getElementById('pres-summary').innerHTML=users.map(a=>{const r=presRate(a);const bc=r<40?'low':r<65?'mid':'';const g=gradeById(a.grade);return'<tr><td style="font-weight:500">'+a.nom+'</td><td><span class="badge '+g.cls+'">'+g.label+'</span></td><td>'+a.presence.reduce((x,y)=>x+y,0)+' / '+a.presence.length+'</td><td><span style="font-size:12px">'+r+'%</span><span class="pbar-bg"><span class="pbar-fill '+bc+'" style="width:'+r+'%"></span></span></td></tr>';}).join('');
+}
+function changeMonth(d){presMonth+=d;if(presMonth>11){presMonth=0;presYear++;}if(presMonth<0){presMonth=11;presYear--;}renderPresence();}
+function markPresent(){const id=parseInt(document.getElementById('pres-agent-sel').value);const a=users.find(x=>x.id===id);if(a){a.presence.push(1);renderPresence();}}
+function renderOrg(){
+  const byGrade={};GRADES.forEach(g=>byGrade[g.id]=[]);users.forEach(a=>{if(byGrade[a.grade])byGrade[a.grade].push(a);});
+  let html='';let prev=false;
+  for(let i=GRADES.length-1;i>=0;i--){const g=GRADES[i];const ga=byGrade[g.id];if(!ga.length)continue;if(prev)html+='<div class="org-line"></div>';const nc=g.id>=8?'top':'mid';const gc=g.id>=8?'top-color':g.id>=5?'mid-color':'base-color';html+='<div class="org-row">'+ga.map(a=>'<div class="org-node '+nc+'"><div class="org-grade '+gc+'">'+g.label+'</div><div class="org-name">'+a.nom+'</div><div class="org-mat">'+a.matricule+'</div></div>').join('')+'</div>';prev=true;}
+  document.getElementById('org-tree').innerHTML=html;
+}
+function renderSanctionsPage(){
+  const canEdit=currentUser&&currentUser.grade>=PERMS.sanctions.minGrade;
+  if(!canEdit){document.getElementById('sanctions-content').innerHTML='<div class="access-denied"><i class="ti ti-lock"></i><h3>Accès restreint</h3><p>Les sanctions sont réservées aux '+gradeById(PERMS.sanctions.minGrade).label+' et supérieurs.</p></div>';return;}
+  const im={suspension:'ti-lock',avertissement:'ti-alert-triangle',felicitation:'ti-star',promotion:'ti-award',note:'ti-file-text'};
+  const cm={suspension:'danger',avertissement:'warn',felicitation:'success',promotion:'info',note:'info'};
+  document.getElementById('sanctions-content').innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:22px;font-weight:700;color:var(--ocean3);letter-spacing:1px;text-transform:uppercase">Sanctions &amp; Logs</div><button class="btn" onclick="openModal(\'add-sanction\')"><i class="ti ti-plus"></i> Ajouter une entrée</button></div><div class="card"><div class="card-header"><div class="card-title"><i class="ti ti-gavel"></i>Historique</div></div><div style="padding:4px 16px">'+[...sanctions].reverse().map(s=>{const a=users.find(u=>u.id===s.agentId);return'<div class="log-item"><div class="log-icon '+(cm[s.type]||'info')+'"><i class="ti '+(im[s.type]||'ti-file')+'"></i></div><div class="log-body"><div class="log-title">'+(a?a.nom:'—')+' — '+s.type.charAt(0).toUpperCase()+s.type.slice(1)+'</div><div class="log-meta">'+s.motif+' · <span style="color:var(--ocean)">'+s.date+'</span> · Par '+s.by+'</div></div><button class="btn ghost" style="padding:4px 8px;font-size:11px;margin-left:auto;align-self:center" onclick="delSanc('+s.id+')"><i class="ti ti-trash"></i></button></div>';}).join('')+'</div></div>';
+  document.getElementById('in-sanc-agent').innerHTML=users.map(a=>'<option value="'+a.id+'">'+a.nom+'</option>').join('');
+}
+function delSanc(id){sanctions=sanctions.filter(s=>s.id!==id);renderSanctionsPage();renderDash();}
+function addSanction(){const agentId=parseInt(document.getElementById('in-sanc-agent').value);const type=document.getElementById('in-sanc-type').value;const motif=document.getElementById('in-sanc-motif').value.trim();if(!motif)return;sanctions.push({id:nextSancId++,agentId,type,motif,date:new Date().toISOString().split('T')[0],by:currentUser?currentUser.matricule:'—'});closeModal('add-sanction');document.getElementById('in-sanc-motif').value='';renderSanctionsPage();renderDash();}
+function openModal(t){document.getElementById('modal-'+t).classList.add('open');}
+function closeModal(t){document.getElementById('modal-'+t).classList.remove('open');}
+document.querySelectorAll('.modal-wrap').forEach(el=>el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+</script>
+</body></html>
+BODY3EOF
+
+echo "Done. File size: $(wc -c < /home/claude/index.html) bytes"
